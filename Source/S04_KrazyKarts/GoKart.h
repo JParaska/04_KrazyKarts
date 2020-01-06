@@ -15,6 +15,15 @@ class S04_KRAZYKARTS_API AGoKart : public APawn
 private:
 	FVector Velocity; // in m/s
 
+	float Throttle;
+
+	UPROPERTY(EditAnywhere)
+	float MaxDrivingForce = 10000;
+
+	// Mass in kg
+	UPROPERTY(EditAnywhere)
+	float Mass = 1000;
+
 /** Methods */
 public:
 	// Sets default values for this pawn's properties
