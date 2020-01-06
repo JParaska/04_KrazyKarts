@@ -16,9 +16,13 @@ private:
 	FVector Velocity; // in m/s
 
 	float Throttle;
+	float SteeringThrow;
 
 	UPROPERTY(EditAnywhere)
 	float MaxDrivingForce = 10000;
+
+	UPROPERTY(EditAnywhere)
+	float MaxRotationDegrees = 45;
 
 	// Mass in kg
 	UPROPERTY(EditAnywhere)
@@ -42,5 +46,11 @@ protected:
 private:
 
 	void MoveForward(float Value);
+
+	void MoveRight(float Value);
+
+	void Driving(float DeltaTime);
+
+	void Steering(float DeltaTime);
 
 };
