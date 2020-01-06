@@ -3,6 +3,7 @@
 
 #include "GoKart.h"
 #include "Components/InputComponent.h"
+#include "Engine/World.h"
 
 // Sets default values
 AGoKart::AGoKart()
@@ -18,6 +19,8 @@ void AGoKart::Tick(float DeltaTime) {
 
 	FVector Force = GetActorForwardVector() * MaxDrivingForce * Throttle;
 	Force += GetAirResistance();
+	Force += GetRollingResistance();
+
 	FVector Acceleration = Force / Mass;
 	Velocity = Velocity + Acceleration * DeltaTime;
 
@@ -48,6 +51,15 @@ void AGoKart::MoveRight(float Value) {
 	SteeringThrow = Value;
 }
 
+void AGoKart::Driving(float DeltaTime) {
+	FVector Translation = Velocity * 100 * DeltaTime; // transform m/s to cm/s
+	FHitResult AccHit;
+	AddActorWorldOffset(Translation, true, &AccHit);
+	if (AccHit.IsValidBlockingHit()) {
+		Velocity = FVector(0);
+	}
+}
+
 void AGoKart::Steering(float DeltaTime) {
 	float RotationAngle = MaxRotationDegrees * DeltaTime * SteeringThrow;
 	FQuat RotationDelta(GetActorUpVector(), FMath::DegreesToRadians(RotationAngle));
@@ -59,11 +71,7 @@ FVector AGoKart::GetAirResistance() {
 	return -Velocity.GetSafeNormal() * Velocity.SizeSquared() * DragCoefficient;
 }
 
-void AGoKart::Driving(float DeltaTime) {
-	FVector Translation = Velocity * 100 * DeltaTime; // transform m/s to cm/s
-	FHitResult AccHit;
-	AddActorWorldOffset(Translation, true, &AccHit);
-	if (AccHit.IsValidBlockingHit()) {
-		Velocity = FVector(0);
-	}
+FVector AGoKart::GetRollingResistance() {
+	float NormalForce = -(Mass * GetWorld()->GetGravityZ() / 100);
+	return  -Velocity.GetSafeNormal() * RollingResistanceCoefficient * NormalForce;
 }

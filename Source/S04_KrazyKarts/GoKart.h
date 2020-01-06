@@ -31,6 +31,9 @@ private:
 	UPROPERTY(EditAnywhere)
 	float DragCoefficient = 16;
 
+	UPROPERTY(EditAnywhere)
+	float RollingResistanceCoefficient = 0.03;
+
 /** Methods */
 public:
 	// Sets default values for this pawn's properties
@@ -57,5 +60,7 @@ private:
 	void Steering(float DeltaTime);
 
 	FVector GetAirResistance();
+
+	FVector GetRollingResistance();
 
 };
