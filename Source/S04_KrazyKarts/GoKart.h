@@ -28,6 +28,9 @@ private:
 	UPROPERTY(EditAnywhere)
 	float Mass = 1000;
 
+	UPROPERTY(EditAnywhere)
+	float DragCoefficient = 16;
+
 /** Methods */
 public:
 	// Sets default values for this pawn's properties
@@ -52,5 +55,7 @@ private:
 	void Driving(float DeltaTime);
 
 	void Steering(float DeltaTime);
+
+	FVector GetAirResistance();
 
 };
