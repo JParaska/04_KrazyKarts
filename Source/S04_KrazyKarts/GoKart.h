@@ -52,8 +52,14 @@ protected:
 
 private:
 
+	UFUNCTION()
+	void MoveForward(float Value);
+
 	UFUNCTION(Server, Reliable, WithValidation)
 	void Server_MoveForward(float Value);
+
+	UFUNCTION()
+	void MoveRight(float Value);
 
 	UFUNCTION(Server, Reliable, WithValidation)
 	void Server_MoveRight(float Value);
@@ -65,5 +71,7 @@ private:
 	FVector GetAirResistance();
 
 	FVector GetRollingResistance();
+
+	FString GetEnumText(ENetRole NetRole);
 
 };
