@@ -20,7 +20,12 @@ void AGoKart::Tick(float DeltaTime) {
 	FVector Acceleration = Force / Mass;
 	Velocity = Velocity + Acceleration * DeltaTime;
 	FVector Translation = Velocity * 100 * DeltaTime; // transform m/s to cm/s
-	AddActorWorldOffset(Translation);
+
+	FHitResult Hit;
+	AddActorWorldOffset(Translation, true, &Hit);
+	if (Hit.IsValidBlockingHit()) {
+		Velocity = FVector(0);
+	}
 }
 
 // Called to bind functionality to input
