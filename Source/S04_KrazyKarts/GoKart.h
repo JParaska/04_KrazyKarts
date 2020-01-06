@@ -21,8 +21,9 @@ private:
 	UPROPERTY(EditAnywhere)
 	float MaxDrivingForce = 10000;
 
+	// In m
 	UPROPERTY(EditAnywhere)
-	float MaxRotationDegrees = 45;
+	float TurningCircleRadius = 10;
 
 	// Mass in kg
 	UPROPERTY(EditAnywhere)
