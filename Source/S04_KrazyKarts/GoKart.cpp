@@ -31,12 +31,7 @@ void AGoKart::Tick(float DeltaTime) {
 	Driving(DeltaTime);
 
 	if (HasAuthority()) {
-		ReplicatedLocation = GetActorLocation();
-		ReplicatedRotation = GetActorRotation();
-	}
-	else {
-		SetActorLocation(ReplicatedLocation);
-		SetActorRotation(ReplicatedRotation);
+		ReplicatedTransform = GetActorTransform();
 	}
 
 	DrawDebugString(GetWorld(), FVector(0, 0, 100), GetEnumText(Role), this, FColor::White, DeltaTime);
@@ -54,12 +49,15 @@ void AGoKart::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) {
 void AGoKart::BeginPlay()
 {
 	Super::BeginPlay();
+
+	if (HasAuthority()) {
+		NetUpdateFrequency = 1;
+	}
 }
 
 void AGoKart::GetLifetimeReplicatedProps(TArray<FLifetimeProperty> & OutLifetimeProps) const {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	DOREPLIFETIME(AGoKart, ReplicatedLocation);
-	DOREPLIFETIME(AGoKart, ReplicatedRotation);
+	DOREPLIFETIME(AGoKart, ReplicatedTransform);
 }
 
 void AGoKart::MoveForward(float Value) {
@@ -127,4 +125,8 @@ FString AGoKart::GetEnumText(ENetRole NetRole) {
 	default:
 		return "ERROR";
 	}
+}
+
+void AGoKart::OnRep_ReplicatedTransform() {
+	SetActorTransform(ReplicatedTransform);
 }

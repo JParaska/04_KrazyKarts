@@ -15,11 +15,8 @@ class S04_KRAZYKARTS_API AGoKart : public APawn
 private:
 	FVector Velocity; // in m/s
 
-	UPROPERTY(Replicated)
-	FVector ReplicatedLocation;
-
-	UPROPERTY(Replicated)
-	FRotator ReplicatedRotation;
+	UPROPERTY(ReplicatedUsing = OnRep_ReplicatedTransform)
+	FTransform ReplicatedTransform;
 
 	float Throttle;
 	float SteeringThrow;
@@ -79,5 +76,8 @@ private:
 	FVector GetRollingResistance();
 
 	FString GetEnumText(ENetRole NetRole);
+
+	UFUNCTION()
+	void OnRep_ReplicatedTransform();
 
 };
