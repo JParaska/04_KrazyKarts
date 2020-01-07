@@ -15,6 +15,12 @@ class S04_KRAZYKARTS_API AGoKart : public APawn
 private:
 	FVector Velocity; // in m/s
 
+	UPROPERTY(Replicated)
+	FVector ReplicatedLocation;
+
+	UPROPERTY(Replicated)
+	FRotator ReplicatedRotation;
+
 	float Throttle;
 	float SteeringThrow;
 
